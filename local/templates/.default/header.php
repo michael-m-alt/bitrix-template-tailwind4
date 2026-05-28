@@ -1,3 +1,28 @@
+<?php
+/**
+ * Шаблон сайта .default
+ * Header template
+ */
+
+if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
+    die();
+}
+
+use Bitrix\Main\Page\Asset;
+use Bitrix\Main\Localization\Loc;
+
+Loc::loadMessages(__FILE__);
+
+// Подключение CSS через Asset (Auto-Composite совместимо)
+Asset::getInstance()->addCss(SITE_TEMPLATE_PATH . '/tailwind.css');
+Asset::getInstance()->addCss(SITE_TEMPLATE_PATH . '/styles.css');
+Asset::getInstance()->addJs(SITE_TEMPLATE_PATH . '/script.js');
+
+// SEO мета-теги из настроек страницы
+if (isset($arResult['TITLE']) && !empty($arResult['TITLE'])) {
+    $APPLICATION->SetTitle($arResult['TITLE']);
+}
+?>
 <!DOCTYPE html>
 <html lang="<?= LANGUAGE_ID ?>">
 <head>
@@ -5,21 +30,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     
-    <?php
-    // SEO мета-теги из настроек страницы
-    if (isset($arResult['TITLE']) && !empty($arResult['TITLE'])) {
-        $APPLICATION->SetTitle($arResult['TITLE']);
-    }
-    ?>
-    
     <title><?$APPLICATION->ShowTitle()?></title>
     
     <?php
-    // Автоматическое подключение CSS/JS через D7 Asset
-    $this->addExternalCss('/local/templates/.default/tailwind.css');
-    $this->addExternalCss('/local/templates/.default/styles.css');
-    $this->addExternalJs('/local/templates/.default/script.js');
-    
     // Вывод метатегов из админки
     $APPLICATION->ShowMeta('description');
     $APPLICATION->ShowMeta('keywords');
@@ -65,7 +78,7 @@
                 </div>
                 
                 <!-- Мобильное меню кнопка -->
-                <button class="starter-header__mobile-toggle md:hidden p-2" aria-label="Menu">
+                <button class="starter-header__mobile-toggle md:hidden p-2" aria-label="<?=Loc::getMessage('STARTER_MENU')?>">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
                     </svg>
