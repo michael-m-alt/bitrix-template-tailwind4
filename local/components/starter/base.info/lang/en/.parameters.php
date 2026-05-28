@@ -1,21 +1,12 @@
 <?php
 /**
- * Language files for Base Info component
- * English language
+ * Языковые переменные компонента starter:base.info (EN)
  */
 
-$MESS['STARTER_BASE_INFO_TEXT'] = 'Message text';
-$MESS['STARTER_BASE_INFO_CACHE_TYPE'] = 'Cache type';
-$MESS['STARTER_BASE_INFO_CACHE_TIME'] = 'Cache time (seconds)';
-$MESS['STARTER_BASE_INFO_CACHE_TYPE_AUTO'] = 'Automatic';
-$MESS['STARTER_BASE_INFO_CACHE_TYPE_YES'] = 'Yes';
-$MESS['STARTER_BASE_INFO_CACHE_TYPE_NO'] = 'No';
-
-$MESS['STARTER_BASE_INFO_SITE'] = 'Site';
-$MESS['STARTER_BASE_INFO_TIME'] = 'Server time';
-$MESS['STARTER_BASE_INFO_LANG'] = 'Language';
-$MESS['STARTER_BASE_INFO_AJAX_TEST'] = 'Test AJAX connection';
-
-// Errors
-$MESS['STARTER_IBLOCK_MODULE_NOT_INSTALLED'] = 'Iblock module is not installed';
-$MESS['STARTER_COMPONENT_ERROR'] = 'Component loading error';
+$MESS['KBNET_STARTER_COMPONENT_TITLE'] = 'Base Information';
+$MESS['KBNET_STARTER_SITE_NAME'] = 'Site Name';
+$MESS['KBNET_STARTER_SERVER_TIME'] = 'Server Time';
+$MESS['KBNET_STARTER_AJAX_TEST_TITLE'] = 'AJAX Test';
+$MESS['KBNET_STARTER_AJAX_TEST_BUTTON'] = 'Test AJAX';
+$MESS['KBNET_STARTER_AJAX_TEST_LOADING'] = 'Loading...';
+$MESS['KBNET_STARTER_IBLOCK_REQUIRED'] = '"Iblocks" module required';

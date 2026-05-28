@@ -1,36 +1,33 @@
 <?php
 /**
- * Параметры компонента
+ * Параметры компонента starter:base.info
  */
 
-use Bitrix\Main\Localization\Loc;
+if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
+    die();
+}
 
-Loc::loadMessages(__FILE__);
-
-return [
-    'TEXT' => [
-        'PARENT' => 'BASE',
-        'NAME' => Loc::getMessage('STARTER_BASE_INFO_TEXT'),
-        'TYPE' => 'STRING',
-        'DEFAULT' => '',
-        'MULTILINE' => 'Y',
-        'COLS' => 50,
-    ],
-    'CACHE_TYPE' => [
-        'PARENT' => 'CACHING',
-        'NAME' => Loc::getMessage('STARTER_BASE_INFO_CACHE_TYPE'),
-        'TYPE' => 'LIST',
-        'VALUES' => [
-            'A' => Loc::getMessage('STARTER_BASE_INFO_CACHE_TYPE_AUTO'),
-            'Y' => Loc::getMessage('STARTER_BASE_INFO_CACHE_TYPE_YES'),
-            'N' => Loc::getMessage('STARTER_BASE_INFO_CACHE_TYPE_NO'),
+$arComponentParameters = [
+    'GROUPS' => [
+        'CACHE_SETTINGS' => [
+            'NAME' => GetMessage('KBNET_STARTER_CACHE_SETTINGS')
         ],
-        'DEFAULT' => 'A',
+        'AJAX_SETTINGS' => [
+            'NAME' => GetMessage('KBNET_STARTER_AJAX_SETTINGS')
+        ]
     ],
-    'CACHE_TIME' => [
-        'PARENT' => 'CACHING',
-        'NAME' => Loc::getMessage('STARTER_BASE_INFO_CACHE_TIME'),
-        'TYPE' => 'STRING',
-        'DEFAULT' => '3600',
-    ],
+    'PARAMETERS' => [
+        'CACHE_TIME' => [
+            'PARENT' => 'CACHE_SETTINGS',
+            'NAME' => GetMessage('KBNET_STARTER_CACHE_TIME'),
+            'TYPE' => 'STRING',
+            'DEFAULT' => '3600'
+        ],
+        'AJAX_TEST' => [
+            'PARENT' => 'AJAX_SETTINGS',
+            'NAME' => GetMessage('KBNET_STARTER_AJAX_TEST'),
+            'TYPE' => 'CHECKBOX',
+            'DEFAULT' => 'Y'
+        ]
+    ]
 ];
