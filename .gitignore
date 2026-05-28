@@ -1,0 +1,1 @@
+Nothing needs to be added to .gitignore since the only modified file is a PHP source file (`local/modules/kbnet.starter/install/index.php`) which is a legitimate source code file that should not be ignored.

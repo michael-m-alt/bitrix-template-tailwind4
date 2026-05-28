@@ -1,0 +1,63 @@
+# Bitrix Project Starter Kit - .gitignore
+
+# System files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+local/php_interface/logs/
+upload/resize_cache/
+
+# Cache
+bitrix/cache/
+bitrix/managed_cache/
+bitrix/html_cache/
+bitrix/stack_cache/
+local/cache/
+
+# Uploaded files (keep structure, ignore content)
+upload/*
+!upload/.htaccess
+!upload/index.php
+
+# Configuration files with sensitive data
+local/php_interface/dbconn.php
+.bitrix.env
+.local_settings.php
+
+# IDE files
+.idea/
+.vscode/
+*.sublime-*
+.project
+.settings/
+
+# Node modules (если используется npm для сборки ассетов)
+node_modules/
+package-lock.json
+
+# Compiled CSS/JS (если собираете через npm)
+*.compiled.css
+*.min.css
+*.min.js
+
+# Temporary files
+tmp/
+temp/
+
+# Backup files
+*.bak
+*.backup
+*.old
+
+# Composer (если используется)
+vendor/
+composer.lock
+
+# Frontend build artifacts
+dist/
+build/
