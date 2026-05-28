@@ -8,8 +8,7 @@
 
 use Bitrix\Main\Loader;
 use Bitrix\Main\Application;
-use Bitrix\Main\DB\ConnectionException;
-use Kbnet\Starter\ORM\SettingsTable;
+use Bitrix\Main\ModuleManager;
 
 class kbnet_starter extends CModule
 {
@@ -71,7 +70,7 @@ class kbnet_starter extends CModule
      */
     public function DoInstall(): void
     {
-        global $APPLICATION;
+        global $APPLICATION, $DB;
         
         // Проверка зависимостей
         if (!Loader::includeModule('iblock')) {
@@ -82,35 +81,18 @@ class kbnet_starter extends CModule
         // Сначала регистрируем модуль в системе
         ModuleManager::registerModule($this->MODULE_ID);
         
-        // Теперь подключаем модуль для загрузки классов
-        Loader::includeModule($this->MODULE_ID);
-        
-        // Создание таблицы через ORM
-        try {
-            // Проверяем существует ли таблица, если нет - создаем
-            $connection = Application::getConnection();
-            $tableName = SettingsTable::getTableName();
-            
-            // Пытаемся выполнить простой запрос к таблице
-            // Если таблица не существует, ORM создаст её автоматически при первом обращении
-            $result = SettingsTable::getList([
-                'select' => ['ID'],
-                'limit' => 1
-            ]);
-        } catch (\Exception $e) {
-            // Если таблица не создалась автоматически, создаем принудительно
-            try {
-                SettingsTable::createTable();
-            } catch (\Exception $createException) {
-                $APPLICATION->ThrowException(
-                    'Ошибка создания таблицы настроек: ' . $createException->getMessage()
-                );
-                // Откатываем регистрацию модуля
-                ModuleManager::unRegisterModule($this->MODULE_ID);
-                return;
+        // Создаем таблицу настроек через SQL (до подключения классов модуля)
+        $sqlFile = __DIR__ . '/db/mysql/install.sql';
+        if (file_exists($sqlFile)) {
+            $sqlContent = file_get_contents($sqlFile);
+            $queries = array_filter(array_map('trim', explode(';', $sqlContent)));
+            foreach ($queries as $query) {
+                if (!empty($query)) {
+                    $DB->Query($query);
+                }
             }
         }
-
+        
         // Вызов хука установки
         \Kbnet\Starter\Starter::onModuleInstall();
 
@@ -125,7 +107,7 @@ class kbnet_starter extends CModule
      */
     public function DoUninstall(): void
     {
-        global $APPLICATION, $step;
+        global $APPLICATION, $DB, $step;
         
         $step = (int)$step;
         
@@ -141,8 +123,7 @@ class kbnet_starter extends CModule
         // Удаление таблиц если подтверждено
         if (isset($_REQUEST['delete_tables']) && $_REQUEST['delete_tables'] === 'Y') {
             try {
-                $connection = Application::getConnection();
-                $connection->dropTable(SettingsTable::getTableName());
+                $DB->Query("DROP TABLE IF EXISTS b_kbnet_starter_settings");
             } catch (\Exception $e) {
                 // Таблица может не существовать
             }
