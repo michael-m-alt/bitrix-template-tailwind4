@@ -9,6 +9,9 @@
 use Bitrix\Main\Loader;
 use Bitrix\Main\Application;
 use Bitrix\Main\ModuleManager;
+use Bitrix\Main\Localization\Loc;
+
+Loc::loadMessages(__FILE__);
 
 class kbnet_starter extends CModule
 {
