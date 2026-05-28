@@ -1,63 +1,42 @@
 ```
-# Bitrix-specific ignores
-bitrix/cache/
-bitrix/managed_cache/
-bitrix/stack_cache/
-bitrix/settings.cache.php
-bitrix/.settings.php
-bitrix/.access.php
-bitrix/images/sort/
-upload/tmp/
-*.tmp
-*.temp
+# Build artifacts
+dist/
+build/
+*.o
+*.obj
+*.out
 
-# Logs
+# Dependencies
+node_modules/
+venv/
+.venv/
+__pycache__/
+*.egg-info/
+
+# Logs and temp files
 *.log
+*.tmp
+*.swp
 
 # Environment
 .env
 .env.local
-.env.*
+*.env.*
 
-# Dependencies
-node_modules/
-vendor/
-
-# IDE
+# Editors
 .vscode/
 .idea/
-*.swp
-*.swo
 
-# OS
+# OS files
 .DS_Store
 Thumbs.db
-
-# Build artifacts
-build/
-dist/
-*.pyc
-__pycache__/
-*.o
-*.obj
-*.exe
-*.dll
-*.so
-*.a
-*.out
 
 # Coverage
 coverage/
 htmlcov/
 .coverage
 
-# Testing
-.mypy_cache/
-.pytest_cache/
-.nyc_output/
-coverage/lcov-report/
-
-# Compression
+# Compressed files
 *.zip
 *.gz
 *.tar

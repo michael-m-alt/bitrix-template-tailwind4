@@ -51,7 +51,7 @@ $this->setFrameMode(true);
             <button type="button" 
                     id="starter-ajax-test-btn"
                     class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
-                    data-url="/local/ajax/index.php?action=kbnet_starter_ajax_test">
+                    data-action="test">
                 <span class="btn-text"><?= Loc::getMessage('KBNET_STARTER_AJAX_TEST_BUTTON') ?></span>
                 <span class="btn-loader hidden ml-2">
                     <svg class="animate-spin h-4 w-4 inline" fill="none" viewBox="0 0 24 24">
@@ -83,6 +83,7 @@ $this->setFrameMode(true);
         testBtn.addEventListener('click', function() {
             const btnText = testBtn.querySelector('.btn-text');
             const btnLoader = testBtn.querySelector('.btn-loader');
+            const action = testBtn.dataset.action || 'test';
             
             // Блокировка кнопки
             testBtn.disabled = true;
@@ -91,7 +92,7 @@ $this->setFrameMode(true);
             resultContainer.classList.add('hidden');
             
             // AJAX запрос к контроллеру модуля
-            fetch('/local/ajax/index.php?action=kbnet_starter_ajax_test', {
+            fetch('/local/ajax/index.php?action=' + encodeURIComponent(action), {
                 method: 'POST',
                 headers: {
                     'X-Requested-With': 'XMLHttpRequest',

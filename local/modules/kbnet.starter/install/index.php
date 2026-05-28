@@ -79,20 +79,37 @@ class kbnet_starter extends CModule
             return;
         }
 
-        // Регистрация модуля
+        // Сначала регистрируем модуль в системе
+        ModuleManager::registerModule($this->MODULE_ID);
+        
+        // Теперь подключаем модуль для загрузки классов
         Loader::includeModule($this->MODULE_ID);
         
-        // Создание таблиц через ORM (таблица создастся при первом обращении)
+        // Создание таблицы через ORM
         try {
-            // Форсируем создание таблицы
+            // Проверяем существует ли таблица, если нет - создаем
             $connection = Application::getConnection();
-            $connection->queryScalar("SELECT 1 FROM " . SettingsTable::getTableName() . " LIMIT 1");
+            $tableName = SettingsTable::getTableName();
+            
+            // Пытаемся выполнить простой запрос к таблице
+            // Если таблица не существует, ORM создаст её автоматически при первом обращении
+            $result = SettingsTable::getList([
+                'select' => ['ID'],
+                'limit' => 1
+            ]);
         } catch (\Exception $e) {
-            // Таблица будет создана автоматически при первом использовании
+            // Если таблица не создалась автоматически, создаем принудительно
+            try {
+                SettingsTable::createTable();
+            } catch (\Exception $createException) {
+                $APPLICATION->ThrowException(
+                    'Ошибка создания таблицы настроек: ' . $createException->getMessage()
+                );
+                // Откатываем регистрацию модуля
+                ModuleManager::unRegisterModule($this->MODULE_ID);
+                return;
+            }
         }
-
-        // Регистрация модуля в системе
-        ModuleManager::registerModule($this->MODULE_ID);
 
         // Вызов хука установки
         \Kbnet\Starter\Starter::onModuleInstall();

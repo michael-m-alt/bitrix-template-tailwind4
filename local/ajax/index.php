@@ -7,7 +7,7 @@
 use Bitrix\Main\Loader;
 use Bitrix\Main\Context;
 use Bitrix\Main\Engine\Response\Json;
-use Local\Starter\Controllers\Ajax;
+use Kbnet\Starter\Controllers\Ajax;
 
 define('NO_KEEP_STATISTIC', 'Y');
 define('NO_AGENT_STATISTIC', 'Y');
@@ -19,8 +19,9 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/main/include/prolog_be
 header('Content-Type: application/json');
 
 try {
-    if (!Loader::includeModule('iblock')) {
-        throw new \Exception('Iblock module not installed');
+    // Подключаем модуль kbnet.starter для загрузки классов
+    if (!Loader::includeModule('kbnet.starter')) {
+        throw new \Exception('Модуль kbnet.starter не установлен или не активен');
     }
     
     // Проверка сессии для всех POST запросов
@@ -70,7 +71,7 @@ try {
     echo json_encode([
         'success' => false,
         'message' => $e->getMessage(),
-        'debug' => \Local\Starter\Config::getInstance()->isDevMode() ? $e->getTraceAsString() : null,
+        'debug' => defined('KBNET_STARTER_DEV_MODE') && KBNET_STARTER_DEV_MODE ? $e->getTraceAsString() : null,
     ], JSON_UNESCAPED_UNICODE);
 }
 

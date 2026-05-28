@@ -74,14 +74,12 @@ class Starter
      */
     private static function createSettingsTable(): void
     {
-        // ORM сама создаст таблицу при первом запросе к SettingsTable
-        // Явное создание не требуется, но можно форсировать
+        // Явно создаем таблицу через ORM
         try {
-            $connection = \Bitrix\Main\Application::getConnection();
-            $connection->queryScalar("SELECT 1 FROM b_kbnet_starter_settings LIMIT 1");
+            \Kbnet\Starter\ORM\SettingsTable::createTable();
         } catch (\Exception $e) {
-            // Таблица еще не создана, ORM создаст её автоматически
-            // при первом обращении к SettingsTable::getList()
+            // Таблица может уже существовать, это нормально
+            // Игнорируем ошибку, если таблица уже создана
         }
     }
 }
