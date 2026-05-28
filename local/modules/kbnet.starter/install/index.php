@@ -78,10 +78,15 @@ class kbnet_starter extends CModule
             return;
         }
 
-        // Сначала регистрируем модуль в системе
+        // Сначала подключаем файлы модуля вручную (до регистрации)
+        require_once(__DIR__ . '/../include.php');
+        require_once(__DIR__ . '/../lib/Starter.php');
+        require_once(__DIR__ . '/../lib/Starter/ORM/SettingsTable.php');
+
+        // Регистрируем модуль в системе
         ModuleManager::registerModule($this->MODULE_ID);
         
-        // Создаем таблицу настроек через SQL (до подключения классов модуля)
+        // Создаем таблицу настроек через SQL
         $sqlFile = __DIR__ . '/db/mysql/install.sql';
         if (file_exists($sqlFile)) {
             $sqlContent = file_get_contents($sqlFile);
